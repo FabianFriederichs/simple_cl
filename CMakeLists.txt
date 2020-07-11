@@ -22,7 +22,7 @@ target_link_libraries(${lib_name}
 target_compile_definitions(${lib_name}
 	PUBLIC
 		$<$<CONFIG:Debug>:CLERR_DEBUG>
-        CL_TARGET_OPEN_CL_VERSION=120 # restrict outselves to OpenCL 1.2 as it is available virtually everywhere
+        CL_TARGET_OPENCL_VERSION=120 # restrict outselves to OpenCL 1.2 as it is available virtually everywhere
 )
 
 target_compile_features(${lib_name} PUBLIC cxx_std_11)
