@@ -12,10 +12,6 @@
 #ifndef _SIMPLE_CL_HPP_
 #define _SIMPLE_CL_HPP_
 
-#ifndef CL_TARGET_OPENCL_VERSION
-#define CL_TARGET_OPENCL_VERSION 120
-#endif
-
 #include <CL/cl.h>
 #include <simple_cl_error.hpp>
 #include <string>
