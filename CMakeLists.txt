@@ -48,6 +48,7 @@ install(TARGETS ${lib_name}
         ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY include DESTINATION include)
+install(EXPORT "${lib_name}Config" FILE "${lib_name}Config.cmake" DESTINATION lib/cmake)
 
-install(EXPORT "${lib_name}Config" DESTINATION lib/cmake/${lib_name})
+install(DIRECTORY include DESTINATION .)
+
