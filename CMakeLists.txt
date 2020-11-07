@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(package_helpers)
 
 set(lib_name simple_cl)
 
-project(${lib_name} LANGUAGES CXX)
+project(${lib_name} VERSION 1.0.0 LANGUAGES C CXX)
 
 # depends on OpenCL but only the basic cl.h header. No fancy bindings needed.
 find_package(OpenCL REQUIRED) # creates target OpenCL::OpenCL
@@ -41,14 +43,56 @@ set_target_properties(${lib_name}
         DEBUG_POSTFIX "d"
 )
 
-install(TARGETS ${lib_name}
-        EXPORT "${lib_name}Config"
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+# creates package files and does all the install stuff
+make_package(NAME ${lib_name}
+    TARGETS
+        ${lib_name}
+    PUBLIC_INCLUDE_DIRECTORIES
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    RUNTIME_DESTINATION bin
+    LIBRARY_DESTINATION lib
+    ARCHIVE_DESTINATION lib
+    INCLUDE_DESTINATION .
+    CONFIG_DESTINATION lib/cmake
+    VERSION_MAJOR ${PROJECT_VERSION_MAJOR}
+    VERSION_MINOR ${PROJECT_VERSION_MINOR}
+    VERSION_PATCH ${PROJECT_VERSION_PATCH}
+    COMPATIBILITY SameMajorVersion
+    DEPENDENCIES
+        OpenCL
 )
 
-install(EXPORT "${lib_name}Config" FILE "${lib_name}Config.cmake" DESTINATION lib/cmake)
+# # install target
+# install(TARGETS ${lib_name}
+#         EXPORT "${lib_name}Targets"
+#         RUNTIME DESTINATION bin
+#         LIBRARY DESTINATION lib
+#         ARCHIVE DESTINATION lib
+# )
 
-install(DIRECTORY include DESTINATION .)
+# # export targets
+# install(EXPORT "${lib_name}Targets" FILE "${lib_name}Targets.cmake" DESTINATION lib/cmake)
+
+# # create package
+# include(CMakePackageConfigHelpers)
+# configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/${lib_name}Config.cmake.in"
+#   "${CMAKE_CURRENT_BINARY_DIR}/${lib_name}Config.cmake"
+#   INSTALL_DESTINATION lib/cmake
+# )
+
+# # versioning
+# set_target_properties(${lib_name}
+#     PROPERTIES
+#         VERSION ${version}
+#         SOVERSION ${version_major}
+#         INTERFACE_${lib_name}_MAJOR_VERSION ${version_major}
+#         COMPATIBLE_INTERFACE_STRING ${lib_name}_MAJOR_VERSION
+# )
+# write_basic_package_version_file(
+#     "${CMAKE_CURRENT_BINARY_DIR}/"
+# )
+
+
+
+# install(DIRECTORY include DESTINATION .)
 
