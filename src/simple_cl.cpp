@@ -1122,7 +1122,7 @@ simple_cl::cl::Event simple_cl::cl::Image::img_write(const ImageRegion& img_regi
 		&origin[0],
 		&region[0],
 		host_row_pitch,
-		host_slice_pitch,
+		m_image_desc.type != ImageType::Image2D ? host_slice_pitch : 0,
 		data_ptr,
 		static_cast<cl_uint>(m_event_cache.size()),
 		(m_event_cache.size() > 0ull ? m_event_cache.data() : nullptr),
